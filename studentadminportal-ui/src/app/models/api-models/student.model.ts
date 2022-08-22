@@ -1,3 +1,4 @@
+import { Address } from './address.model';
 import { Gender } from './gender.model';
 
 export interface Student {
@@ -10,4 +11,5 @@ export interface Student {
   profileImageUrl: string;
   genderId: string;
   gender: Gender;
+  address: Address;
 }

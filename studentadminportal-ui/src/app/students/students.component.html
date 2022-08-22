@@ -7,13 +7,8 @@
 <div class="container">
   <div class="row end-xs mt-1">
     <div class="col-xs-12">
-      <input
-        type="text"
-        class="search-input"
-        placeholder="Tim kiem Students"
-        [(ngModel)]="filterString"
-        (keyup)="filterStudents()"
-      />
+      <input type="text" class="search-input" placeholder="Tìm kiếm học viên" [(ngModel)]="filterString"
+        (keyup)="filterStudents()" />
     </div>
   </div>
 
@@ -62,16 +57,21 @@
         </td>
       </ng-container>
 
+      <!-- Edit Column -->
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <a [routerLink]="['/students', element.id]">
+            <mat-icon color="primary">edit</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <mat-paginator
-      [length]="100"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 25, 100]"
-      aria-label="Select page"
-    >
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
     </mat-paginator>
   </div>
 </div>

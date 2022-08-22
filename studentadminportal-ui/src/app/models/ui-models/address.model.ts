@@ -1,5 +1,5 @@
 export interface Address {
-  id: string,
-  physicalAddress:string,
-  postalAddress: string
+  id: string;
+  physicalAddress: string;
+  postalAddress: string;
 }

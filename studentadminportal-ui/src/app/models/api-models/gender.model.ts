@@ -1,4 +1,4 @@
-export interface Gender{
-  id: string,
-  description: string
+export interface Gender {
+  id: string;
+  description: string;
 }
