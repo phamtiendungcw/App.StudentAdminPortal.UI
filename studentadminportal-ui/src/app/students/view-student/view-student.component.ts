@@ -59,17 +59,9 @@ export class ViewStudentComponent implements OnInit {
 
   onUpdate(): void {
     // Call Student Service to Update Student
-    this.studentService.updateStudent(this.student.id, this.student)
-      .subscribe(
-        (successResponse) => {
-          // Show a notification
-          this.snackbar.open('Student update successfully', undefined, {
-            duration: 2000
-          });
-        },
-        (errorResponse) => {
-          // Log it
-        }
-      );
+    this.studentService.updateStudent(this.student.id, this.student).subscribe((successResponse) => {
+      // Show a notification
+      this.snackbar.open('Student update successfully', undefined, { duration: 2000 });
+    })
   }
 }
