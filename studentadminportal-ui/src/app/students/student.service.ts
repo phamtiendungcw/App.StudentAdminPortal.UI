@@ -1,3 +1,4 @@
+import { UpdateStudentRequest } from './../models/api-models/update-student-request.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -19,5 +20,20 @@ export class StudentService {
     return this.httpClient.get<Student>(
       this.baseApiUrl + '/students/' + studentId
     );
+  }
+
+  updateStudent(studentId: string, studentRequest: Student): Observable<Student> {
+    const updateStudentRequest: UpdateStudentRequest = {
+      firstName: studentRequest.firstName,
+      lastName: studentRequest.lastName,
+      dateOfBirth: studentRequest.dateOfBirth,
+      email: studentRequest.email,
+      mobile: studentRequest.mobile,
+      genderId: studentRequest.genderId,
+      physicalAddress: studentRequest.address.physicalAddress,
+      postalAddress: studentRequest.address.postalAddress
+    }
+
+    return this.httpClient.put<Student>(this.baseApiUrl + '/students/' + studentId, updateStudentRequest);
   }
 }
