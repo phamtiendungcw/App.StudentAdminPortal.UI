@@ -13,7 +13,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class ViewStudentComponent implements OnInit {
   studentId: string | null | undefined;
-  private readonly newProperty = '';
   genderList: Gender[] = [];
 
   student: Student = {
