@@ -1,7 +1,7 @@
 import { GenderService } from './../../services/gender.service';
 import { Student } from './../../models/ui-models/student.model';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from '../student.service';
 import { Gender } from 'src/app/models/ui-models/gender.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -39,7 +39,8 @@ export class ViewStudentComponent implements OnInit {
     private readonly studentService: StudentService,
     private readonly route: ActivatedRoute,
     private readonly genderService: GenderService,
-    private snackbar: MatSnackBar
+    private snackbar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -58,13 +59,36 @@ export class ViewStudentComponent implements OnInit {
 
   onUpdate(): void {
     // Call Student Service to Update Student
-    this.studentService.updateStudent(this.student.id, this.student).subscribe((successResponse) => {
-      // Show a notification
-      this.snackbar.open('Student update successfully', undefined, { duration: 2000 });
-    },
-      (errorResponse) => {
-        // Log it
-      }
-    );
+    this.studentService.updateStudent(this.student.id, this.student)
+      .subscribe(
+        (successResponse) => {
+          // Show a notification
+          this.snackbar.open('Student update successfully', undefined, { duration: 2000 });
+
+          setTimeout(() => {
+            this.router.navigateByUrl('students');
+          }, 2000);
+        },
+        (errorResponse) => {
+          // Log it
+        }
+      );
+  }
+
+  onDelete(): void {
+    // Student service to delete
+    this.studentService.deleteStudent(this.student.id)
+      .subscribe(
+        (successResponse) => {
+          this.snackbar.open('Student deleted successfully', undefined, { duration: 2000 });
+
+          setTimeout(() => {
+            this.router.navigateByUrl('students');
+          }, 2000);
+        },
+        (errorResponse) => {
+          // Log it
+        }
+      );
   }
 }
