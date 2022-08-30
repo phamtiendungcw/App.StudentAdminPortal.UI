@@ -11,7 +11,7 @@ import { AddStudentRequest } from '../models/api-models/add-student-request.mode
 export class StudentService {
   private baseApiUrl = 'https://localhost:5001';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getStudents(): Observable<Student[]> {
     return this.httpClient.get<Student[]>(this.baseApiUrl + '/students');
@@ -23,7 +23,10 @@ export class StudentService {
     );
   }
 
-  updateStudent(studentId: string, studentRequest: Student): Observable<Student> {
+  updateStudent(
+    studentId: string,
+    studentRequest: Student
+  ): Observable<Student> {
     const updateStudentRequest: UpdateStudentRequest = {
       firstName: studentRequest.firstName,
       lastName: studentRequest.lastName,
@@ -32,14 +35,19 @@ export class StudentService {
       mobile: studentRequest.mobile,
       genderId: studentRequest.genderId,
       physicalAddress: studentRequest.address.physicalAddress,
-      postalAddress: studentRequest.address.postalAddress
-    }
+      postalAddress: studentRequest.address.postalAddress,
+    };
 
-    return this.httpClient.put<Student>(this.baseApiUrl + '/students/' + studentId, updateStudentRequest);
+    return this.httpClient.put<Student>(
+      this.baseApiUrl + '/students/' + studentId,
+      updateStudentRequest
+    );
   }
 
   deleteStudent(studentId: string): Observable<Student> {
-    return this.httpClient.delete<Student>(this.baseApiUrl + '/students/' + studentId);
+    return this.httpClient.delete<Student>(
+      this.baseApiUrl + '/students/' + studentId
+    );
   }
 
   addStudent(studentRequest: Student): Observable<Student> {
@@ -51,9 +59,12 @@ export class StudentService {
       mobile: studentRequest.mobile,
       genderId: studentRequest.genderId,
       physicalAddress: studentRequest.address.physicalAddress,
-      postalAddress: studentRequest.address.postalAddress
+      postalAddress: studentRequest.address.postalAddress,
     };
 
-    return this.httpClient.post<Student>(this.baseApiUrl + '/students/add', addStudentRequest);
+    return this.httpClient.post<Student>(
+      this.baseApiUrl + '/students/add',
+      addStudentRequest
+    );
   }
 }
