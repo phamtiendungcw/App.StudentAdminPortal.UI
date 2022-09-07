@@ -9,13 +9,17 @@ const routes: Routes = [
     component: StudentsComponent,
   },
   {
-    path: 'students',
+    path: 'Students/GetAll',
     component: StudentsComponent,
   },
   {
-    path: 'students/:id',
+    path: 'Students/:id',
     component: ViewStudentComponent,
   },
+  {
+    path: 'Students/GetDetail/:id',
+    component: ViewStudentComponent,
+  }
 ];
 
 @NgModule({

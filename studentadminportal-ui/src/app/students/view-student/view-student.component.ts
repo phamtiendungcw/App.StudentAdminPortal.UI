@@ -35,6 +35,7 @@ export class ViewStudentComponent implements OnInit {
   };
   isNewStudent = false;
   header = '';
+  displayProfileImageUrl = '';
 
   constructor(
     private readonly studentService: StudentService,
@@ -42,7 +43,7 @@ export class ViewStudentComponent implements OnInit {
     private readonly genderService: GenderService,
     private snackbar: MatSnackBar,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
@@ -52,15 +53,20 @@ export class ViewStudentComponent implements OnInit {
           // => New Student Func
           this.isNewStudent = true;
           this.header = 'Add New Student';
+          this.setImage();
         } else {
           // => Exiting Student Func
           this.isNewStudent = false;
           this.header = 'Edit Student';
-          this.studentService
-            .getStudent(this.studentId)
-            .subscribe((successResponse) => {
+          this.studentService.getStudent(this.studentId).subscribe(
+            (successResponse) => {
               this.student = successResponse;
-            });
+              this.setImage();
+            },
+            (errorResponse) => {
+              this.setImage();
+            }
+          );
         }
 
         this.genderService.getGendersList().subscribe((successResponse) => {
@@ -70,14 +76,17 @@ export class ViewStudentComponent implements OnInit {
     });
   }
 
-  onUpdate(): void {
+  onUpdate() {
     // Call Student Service to Update Student
     this.studentService.updateStudent(this.student.id, this.student).subscribe(
       (successResponse) => {
         // Show a notification
-        this.snackbar.open('Student update successfully', undefined, {
+        this.snackbar.open('Student updated successfully', undefined, {
           duration: 2000,
         });
+        setTimeout(() => {
+          this.router.navigateByUrl('Students/GetAll');
+        }, 100);
       },
       (errorResponse) => {
         // Log it
@@ -85,16 +94,16 @@ export class ViewStudentComponent implements OnInit {
     );
   }
 
-  onDelete(): void {
+  onDelete() {
     // Student service to delete
     this.studentService.deleteStudent(this.student.id).subscribe(
       (successResponse) => {
         this.snackbar.open('Student deleted successfully', undefined, {
-          duration: 3000,
+          duration: 2500,
         });
         setTimeout(() => {
-          this.router.navigateByUrl('students');
-        }, 1500);
+          this.router.navigateByUrl('Students/GetAll');
+        }, 100);
       },
       (errorResponse) => {
         // Log it
@@ -102,19 +111,47 @@ export class ViewStudentComponent implements OnInit {
     );
   }
 
-  onAdd(): void {
+  onAdd() {
     this.studentService.addStudent(this.student).subscribe(
       (successResponse) => {
         this.snackbar.open('Student added successfully', undefined, {
           duration: 2000,
         });
         setTimeout(() => {
-          this.router.navigateByUrl(`students/${successResponse.id}`);
+          this.router.navigateByUrl(`Students/GetDetail/${successResponse.id}`);
         }, 2000);
       },
       (errorResponse) => {
         // Log
       }
     );
+  }
+
+  private setImage() {
+    if (this.student.profileImageUrl) {
+      // Fetch the image by url
+      this.displayProfileImageUrl = this.studentService.getImagePath(this.student.profileImageUrl);
+    } else {
+      // Display a default
+      this.displayProfileImageUrl = '/assets/user.png';
+    }
+  }
+
+  uploadImage(event: any) {
+    if (this.studentId) {
+      const file: File = event.target.files[0];
+      this.studentService.uploadImage(this.student.id, file)
+        .subscribe((successResponse) => {
+          this.student.profileImageUrl = successResponse;
+          this.setImage();
+          this.snackbar.open('Profile Image Update', undefined, {
+            duration: 2000,
+          });
+        },
+          (errorResponse) => {
+            // Log
+          }
+        );
+    }
   }
 }
