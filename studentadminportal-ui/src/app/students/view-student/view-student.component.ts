@@ -141,18 +141,19 @@ export class ViewStudentComponent implements OnInit {
   uploadImage(event: any) {
     if (this.studentId) {
       const file: File = event.target.files[0];
-      this.studentService.uploadImage(this.student.id, file)
-        .subscribe((successResponse) => {
+      this.studentService.uploadImage(this.student.id, file).subscribe(
+        (successResponse) => {
           this.student.profileImageUrl = successResponse;
           this.setImage();
           this.snackbar.open('Cập nhật hình ảnh hồ sơ', undefined, {
             duration: 2000,
           });
         },
-          (errorResponse) => {
-            // Log
-          }
-        );
+        (errorResponse) => {
+          // Log
+          console.log(errorResponse);
+        }
+      );
     }
   }
 }
