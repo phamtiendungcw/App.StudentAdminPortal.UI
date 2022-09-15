@@ -72,7 +72,7 @@ export class StudentService {
     const formData = new FormData();
     formData.append("profileImage", file);
 
-    return this.httpClient.post(this.baseApiUrl + '/Students/' + studentId + '/upload-image',
+    return this.httpClient.post(this.baseApiUrl + '/Students/' + studentId + '/Upload-Image',
       formData, {
       responseType: 'text'
     });

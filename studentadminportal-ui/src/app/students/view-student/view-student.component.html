@@ -11,7 +11,7 @@
     <div class="col-xs-12 row end-xs">
       <a routerLink="/Students/GetAll" color="primary" mat-raised-button>
         <mat-icon>chevron_left</mat-icon>
-        Go Back
+        Quay lại
       </a>
     </div>
   </div>
@@ -23,21 +23,23 @@
         <div class="row">
           <div class="col-xs-6">
             <mat-form-field appearance="outline">
-              <mat-label>First Name</mat-label>
-              <input type="text" matInput [(ngModel)]="student.firstName" name="firstName" />
+              <mat-label>Họ và tên đệm</mat-label>
+              <input type="text" matInput [(ngModel)]="student.firstName" name="firstName" required />
+              <mat-error>Vui lòng điền vào mục này</mat-error>
             </mat-form-field>
           </div>
           <div class="col-xs-6">
             <mat-form-field appearance="outline">
-              <mat-label>Last Name</mat-label>
-              <input type="text" matInput [(ngModel)]="student.lastName" name="lastName" />
+              <mat-label>Tên</mat-label>
+              <input type="text" matInput [(ngModel)]="student.lastName" name="lastName" required/>
+              <mat-error>Vui lòng điền vào mục này</mat-error>
             </mat-form-field>
           </div>
         </div>
         <div class="row">
           <div class="col-xs-12">
             <mat-form-field appearance="outline">
-              <mat-label>Date Of Birth</mat-label>
+              <mat-label>Ngày sinh</mat-label>
               <input matInput [matDatepicker]="picker" [(ngModel)]="student.dateOfBirth" name="dateOfBirth" />
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker></mat-datepicker>
@@ -53,7 +55,7 @@
           </div>
           <div class="col-xs-6">
             <mat-form-field appearance="outline">
-              <mat-label>Mobile</mat-label>
+              <mat-label>Di động</mat-label>
               <input type="number" matInput [(ngModel)]="student.mobile" name="mobile" />
             </mat-form-field>
           </div>
@@ -61,7 +63,7 @@
         <div class="row">
           <div class="col-xs-12">
             <mat-form-field appearance="outline">
-              <mat-label>Gender</mat-label>
+              <mat-label>Giới tính</mat-label>
               <mat-select [(ngModel)]="student.genderId" name="gender">
                 <mat-option *ngFor="let gender of genderList" [value]="gender.id">
                   {{ gender.description }}
@@ -73,7 +75,7 @@
         <div class="row">
           <div class="col-xs-12">
             <mat-form-field appearance="outline">
-              <mat-label>Physical Address</mat-label>
+              <mat-label>Địa chỉ nhà</mat-label>
               <textarea matInput [(ngModel)]="student.address.physicalAddress" name="physicalAddress"></textarea>
             </mat-form-field>
           </div>
@@ -81,7 +83,7 @@
         <div class="row">
           <div class="col-xs-12">
             <mat-form-field appearance="outline">
-              <mat-label>Postal Address</mat-label>
+              <mat-label>Địa chỉ bưu điện</mat-label>
               <textarea matInput [(ngModel)]="student.address.postalAddress" name="postalAddress"></textarea>
             </mat-form-field>
           </div>
@@ -90,15 +92,15 @@
           <div class="col-xs-12">
             <div class="row between-xs" *ngIf="!isNewStudent">
               <button mat-raised-button color="primary" (click)="onUpdate()">
-                Save
+                Lưu
               </button>
               <button mat-raised-button color="warn" (click)="onDelete()">
-                Delete
+                Xóa
               </button>
             </div>
             <div class="row between-xs" *ngIf="isNewStudent">
               <button mat-raised-button color="primary" (click)="onAdd()">
-                Add
+                Thêm
               </button>
             </div>
           </div>
@@ -115,7 +117,7 @@
       <div class="row">
         <div class="col-xs-12 row center-xs mt-1" *ngIf="!isNewStudent">
           <input type="file" hidden #imageUpload (change)="uploadImage($event)">
-          <button mat-raised-button color="primary" (click)="imageUpload.click()">Change Image</button>
+          <button mat-raised-button color="primary" (click)="imageUpload.click()">Đổi hình ảnh</button>
         </div>
       </div>
     </div>

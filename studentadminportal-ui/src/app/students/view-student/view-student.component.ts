@@ -52,12 +52,12 @@ export class ViewStudentComponent implements OnInit {
         if (this.studentId.toLocaleLowerCase() === 'Add'.toLocaleLowerCase()) {
           // => New Student Func
           this.isNewStudent = true;
-          this.header = 'Add New Student';
+          this.header = 'Thêm sinh viên mới';
           this.setImage();
         } else {
           // => Exiting Student Func
           this.isNewStudent = false;
-          this.header = 'Edit Student';
+          this.header = 'Chỉnh sửa sinh viên';
           this.studentService.getStudent(this.studentId).subscribe(
             (successResponse) => {
               this.student = successResponse;
@@ -81,7 +81,7 @@ export class ViewStudentComponent implements OnInit {
     this.studentService.updateStudent(this.student.id, this.student).subscribe(
       (successResponse) => {
         // Show a notification
-        this.snackbar.open('Student updated successfully', undefined, {
+        this.snackbar.open('Cập nhật student thành công!', undefined, {
           duration: 2000,
         });
         setTimeout(() => {
@@ -98,7 +98,7 @@ export class ViewStudentComponent implements OnInit {
     // Student service to delete
     this.studentService.deleteStudent(this.student.id).subscribe(
       (successResponse) => {
-        this.snackbar.open('Student deleted successfully', undefined, {
+        this.snackbar.open('Xoá student thành công!', undefined, {
           duration: 2500,
         });
         setTimeout(() => {
@@ -114,7 +114,7 @@ export class ViewStudentComponent implements OnInit {
   onAdd() {
     this.studentService.addStudent(this.student).subscribe(
       (successResponse) => {
-        this.snackbar.open('Student added successfully', undefined, {
+        this.snackbar.open('Đã thêm student thành công!', undefined, {
           duration: 2000,
         });
         setTimeout(() => {
@@ -123,6 +123,7 @@ export class ViewStudentComponent implements OnInit {
       },
       (errorResponse) => {
         // Log
+        console.log(errorResponse);
       }
     );
   }
@@ -144,7 +145,7 @@ export class ViewStudentComponent implements OnInit {
         .subscribe((successResponse) => {
           this.student.profileImageUrl = successResponse;
           this.setImage();
-          this.snackbar.open('Profile Image Update', undefined, {
+          this.snackbar.open('Cập nhật hình ảnh hồ sơ', undefined, {
             duration: 2000,
           });
         },
