@@ -4,12 +4,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Student } from '../models/api-models/student.model';
 import { AddStudentRequest } from '../models/api-models/add-student-request.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class StudentService {
-  private baseApiUrl = 'https://localhost:5001';
+  private baseApiUrl = environment.baseApiUrl;
 
   constructor(private httpClient: HttpClient) { }
 
