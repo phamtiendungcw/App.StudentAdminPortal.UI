@@ -1,10 +1,11 @@
 import { GenderService } from './../../services/gender.service';
 import { Student } from './../../models/ui-models/student.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StudentService } from '../student.service';
 import { Gender } from 'src/app/models/ui-models/gender.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-view-student',
@@ -37,6 +38,8 @@ export class ViewStudentComponent implements OnInit {
   header = '';
   displayProfileImageUrl = '';
 
+  @ViewChild('studentDetailsForm') studentDetailsForm?: NgForm;
+
   constructor(
     private readonly studentService: StudentService,
     private readonly route: ActivatedRoute,
@@ -52,12 +55,12 @@ export class ViewStudentComponent implements OnInit {
         if (this.studentId.toLocaleLowerCase() === 'Add'.toLocaleLowerCase()) {
           // => New Student Func
           this.isNewStudent = true;
-          this.header = 'Thêm sinh viên mới';
+          this.header = 'Thêm học viên mới';
           this.setImage();
         } else {
           // => Exiting Student Func
           this.isNewStudent = false;
-          this.header = 'Chỉnh sửa sinh viên';
+          this.header = 'Chỉnh sửa học viên';
           this.studentService.getStudent(this.studentId).subscribe(
             (successResponse) => {
               this.student = successResponse;
@@ -77,28 +80,31 @@ export class ViewStudentComponent implements OnInit {
   }
 
   onUpdate() {
-    // Call Student Service to Update Student
-    this.studentService.updateStudent(this.student.id, this.student).subscribe(
-      (successResponse) => {
-        // Show a notification
-        this.snackbar.open('Cập nhật student thành công!', undefined, {
-          duration: 2000,
-        });
-        setTimeout(() => {
-          this.router.navigateByUrl('Students/GetAll');
-        }, 100);
-      },
-      (errorResponse) => {
-        // Log it
-      }
-    );
+    if (this.studentDetailsForm?.form.valid) {
+      // Call Student Service to Update Student
+      this.studentService.updateStudent(this.student.id, this.student).subscribe(
+        (successResponse) => {
+          // Show a notification
+          this.snackbar.open('Cập nhật thông tin học viên thành công!', undefined, {
+            duration: 2000,
+          });
+          setTimeout(() => {
+            this.router.navigateByUrl('Students/GetAll');
+          }, 100);
+        },
+        (errorResponse) => {
+          // Log it
+          console.log(errorResponse);
+        }
+      );
+    }
   }
 
   onDelete() {
     // Student service to delete
     this.studentService.deleteStudent(this.student.id).subscribe(
       (successResponse) => {
-        this.snackbar.open('Xoá student thành công!', undefined, {
+        this.snackbar.open('Xoá học viên thành công!', undefined, {
           duration: 2500,
         });
         setTimeout(() => {
@@ -112,20 +118,23 @@ export class ViewStudentComponent implements OnInit {
   }
 
   onAdd() {
-    this.studentService.addStudent(this.student).subscribe(
-      (successResponse) => {
-        this.snackbar.open('Đã thêm student thành công!', undefined, {
-          duration: 2000,
-        });
-        setTimeout(() => {
-          this.router.navigateByUrl(`Students/GetDetail/${successResponse.id}`);
-        }, 2000);
-      },
-      (errorResponse) => {
-        // Log
-        console.log(errorResponse);
-      }
-    );
+    if (this.studentDetailsForm?.form.valid) {
+      // Submit form data api
+      this.studentService.addStudent(this.student).subscribe(
+        (successResponse) => {
+          this.snackbar.open('Đã thêm học viên thành công!', undefined, {
+            duration: 2000,
+          });
+          setTimeout(() => {
+            this.router.navigateByUrl(`Students/GetDetail/${successResponse.id}`);
+          }, 2000);
+        },
+        (errorResponse) => {
+          // Log
+          console.log(errorResponse);
+        }
+      );
+    }
   }
 
   private setImage() {
